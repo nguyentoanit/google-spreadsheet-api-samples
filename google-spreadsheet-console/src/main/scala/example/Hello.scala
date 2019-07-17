@@ -2,6 +2,7 @@ package example
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
 import com.google.api.services.sheets.v4.Sheets
+import scala.jdk.CollectionConverters._
 
 object Hello extends App with SheetsQuickstart {
 
@@ -14,7 +15,6 @@ object Hello extends App with SheetsQuickstart {
   val values = response.getValues
   if (values == null || values.isEmpty) System.out.println("No data found.")
   else {
-    import scala.jdk.CollectionConverters._
     for(cell <- values.asScala) {
       cell.asScala.foreach(println)
     }
