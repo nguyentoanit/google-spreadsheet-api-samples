@@ -1,4 +1,4 @@
-package example
+package google
 
 import java.io.{File, FileNotFoundException, IOException, InputStreamReader}
 import java.util.Collections
@@ -35,13 +35,13 @@ trait SheetsQuickstart {
     * @throws IOException If the credentials.json file cannot be found.
     */
   @throws[IOException]
-  def getCredentials(HTTP_TRANSPORT: NetHttpTransport): Credential = { // Load client secrets.
+  def getCredentials(HTTP_TRANSPORT: NetHttpTransport, scope: java.util.Collection[String] = SCOPES): Credential = { // Load client secrets.
     val in = classOf[SheetsQuickstart].getResourceAsStream(CREDENTIALS_FILE_PATH)
 
     if (in == null) throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH)
     val clientSecrets: GoogleClientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in))
     // Build flow and trigger user authorization request.
-    val flow: GoogleAuthorizationCodeFlow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES).setDataStoreFactory(new FileDataStoreFactory(new File(TOKENS_DIRECTORY_PATH))).setAccessType("offline").build
+    val flow: GoogleAuthorizationCodeFlow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, scope).setDataStoreFactory(new FileDataStoreFactory(new File(TOKENS_DIRECTORY_PATH))).setAccessType("offline").build
     val receiver: LocalServerReceiver = new LocalServerReceiver.Builder().setPort(8888).build
     new AuthorizationCodeInstalledApp(flow, receiver).authorize("user")
   }
