@@ -2,4 +2,6 @@
 *.log
 target
 .DS_Store
-
+.idea
+/google-spreadsheet-console/tokens
+/google-spreadsheet-console/src/main/resources/credentials.json
